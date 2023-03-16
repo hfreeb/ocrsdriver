@@ -17,7 +17,7 @@ public class OCRSDriver {
         li.cil.oc.api.Driver.add(new DriverNetworkNode());
         li.cil.oc.api.Driver.add(new ConverterCraftingPattern());
         li.cil.oc.api.Driver.add(new ConverterCraftingTask());
-        li.cil.oc.api.Driver.add(new ConverterStorageGui());
+        li.cil.oc.api.Driver.add(new ConverterStorageNode());
 
         li.cil.oc.api.Driver.add(new DriverFlux());
         li.cil.oc.api.Driver.add(new ConverterIFluxNetwork());

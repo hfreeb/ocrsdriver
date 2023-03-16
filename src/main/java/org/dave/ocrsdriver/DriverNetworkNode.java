@@ -6,8 +6,14 @@ import com.raoulvdberge.refinedstorage.api.autocrafting.ICraftingPattern;
 import com.raoulvdberge.refinedstorage.api.autocrafting.task.ICraftingTask;
 import com.raoulvdberge.refinedstorage.api.network.INetworkMaster;
 import com.raoulvdberge.refinedstorage.api.network.INetworkNode;
+import com.raoulvdberge.refinedstorage.api.storage.fluid.IFluidStorage;
+import com.raoulvdberge.refinedstorage.api.storage.item.IItemStorage;
 import com.raoulvdberge.refinedstorage.api.util.IComparer;
+import com.raoulvdberge.refinedstorage.apiimpl.storage.fluid.FluidStorageNBT;
+import com.raoulvdberge.refinedstorage.apiimpl.storage.item.ItemStorageNBT;
 import com.raoulvdberge.refinedstorage.tile.IStorageGui;
+import com.raoulvdberge.refinedstorage.tile.externalstorage.FluidStorageExternal;
+import com.raoulvdberge.refinedstorage.tile.externalstorage.ItemStorageExternal;
 import li.cil.oc.api.Network;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -323,12 +329,40 @@ public class DriverNetworkNode extends DriverSidedTileEntity {
 
         @Callback
         public Object[] getStorageNodes(Context context, Arguments args) {
-            List<IStorageGui> nodes = new ArrayList<>();
+            List<StorageNode> nodes = new ArrayList<>();
 
-            for (INetworkNode n : node.getNetwork().getNodeGraph().all()) {
-                if (n instanceof IStorageGui) {
-                    nodes.add((IStorageGui) n);
+            for (IItemStorage storage : node.getNetwork().getItemStorageCache().getStorages()) {
+                boolean external;
+                int capacity;
+
+                if (storage instanceof ItemStorageExternal) {
+                    capacity = ((ItemStorageExternal) storage).getCapacity();
+                    external = true;
+                } else if (storage instanceof ItemStorageNBT) {
+                    capacity = ((ItemStorageNBT) storage).getCapacity();
+                    external = false;
+                } else {
+                    throw new IllegalStateException("Storage must be ItemStorageExternal or ItemStorageNBT");
                 }
+
+                nodes.add(new StorageNode("items", external, storage.getStored(), capacity));
+            }
+
+            for (IFluidStorage storage : node.getNetwork().getFluidStorageCache().getStorages()) {
+                boolean external;
+                int capacity;
+
+                if (storage instanceof FluidStorageExternal) {
+                    capacity = ((FluidStorageExternal) storage).getCapacity();
+                    external = true;
+                } else if (storage instanceof FluidStorageNBT) {
+                    capacity = ((FluidStorageNBT) storage).getCapacity();
+                    external = false;
+                } else {
+                    throw new IllegalStateException("Storage must be FluidStorageExternal or FluidStorageNBT");
+                }
+
+                nodes.add(new StorageNode("fluids", external, storage.getStored(), capacity));
             }
 
             return new Object[] { nodes };
