@@ -1,8 +1,10 @@
 package org.dave.ocrsdriver;
 
+import li.cil.oc.api.Network;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.DriverSidedTileEntity;
 import li.cil.oc.api.prefab.ManagedEnvironment;
 import net.minecraft.util.EnumFacing;
@@ -29,6 +31,8 @@ public class DriverFlux extends DriverSidedTileEntity {
 
         public Environment(TileEntityFlux tileEntityFlux) {
             this.tileEntityFlux = tileEntityFlux;
+            this.setNode(Network.newNode(this, Visibility.Network).withComponent("fn_interface").create());
+
         }
 
         @Callback
