@@ -74,6 +74,11 @@ dependencies {
     compile "li.cil.oc:OpenComputers:MC${config.minecraft.version}-${config.oc.version}:api"
     compile "curse.maven:refinedstorage-243076:2431884"
 
+    // Flux
+    compile "curse.maven:fluxnetwork-248020:2480925"
+    compile "curse.maven:sonar-core-239418:2480920"
+
+
     //runtime "li.cil.oc:OpenComputers:MC${config.minecraft.version}-${config.oc.version}"
     //runtime "refinedstorage:refinedstorage:${config.rs.version}+"
 }
