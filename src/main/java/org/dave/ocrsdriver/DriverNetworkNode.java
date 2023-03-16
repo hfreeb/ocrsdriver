@@ -7,6 +7,7 @@ import com.raoulvdberge.refinedstorage.api.autocrafting.task.ICraftingTask;
 import com.raoulvdberge.refinedstorage.api.network.INetworkMaster;
 import com.raoulvdberge.refinedstorage.api.network.INetworkNode;
 import com.raoulvdberge.refinedstorage.api.util.IComparer;
+import com.raoulvdberge.refinedstorage.tile.IStorageGui;
 import li.cil.oc.api.Network;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -27,6 +28,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.raoulvdberge.refinedstorage.api.util.IComparer.COMPARE_DAMAGE;
@@ -318,5 +321,17 @@ public class DriverNetworkNode extends DriverSidedTileEntity {
             return new Object[]{ this.node.getNetwork().getItemStorageCache().getList().getStacks() };
         }
 
+        @Callback
+        public Object[] getStorageNodes(Context context, Arguments args) {
+            List<IStorageGui> nodes = new ArrayList<>();
+
+            for (INetworkNode n : node.getNetwork().getNodeGraph().all()) {
+                if (n instanceof IStorageGui) {
+                    nodes.add((IStorageGui) n);
+                }
+            }
+
+            return new Object[] { nodes };
+        }
     }
 }

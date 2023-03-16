@@ -45,8 +45,7 @@ repositories {
     }
 
     maven {
-    	name = "refinedstorage"
-	    url = "https://dl.bintray.com/raoulvdberge/dev/"
+        url = "https://cursemaven.com"
     }
 }
 
@@ -73,7 +72,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     compile "li.cil.oc:OpenComputers:MC${config.minecraft.version}-${config.oc.version}:api"
-    compile "refinedstorage:refinedstorage:${config.rs.version}+:api"
+    compile "curse.maven:refinedstorage-243076:2431884"
 
     //runtime "li.cil.oc:OpenComputers:MC${config.minecraft.version}-${config.oc.version}"
     //runtime "refinedstorage:refinedstorage:${config.rs.version}+"
